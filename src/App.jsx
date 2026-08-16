@@ -1,13 +1,11 @@
 import { useMemo, useState } from "react";
-import ticksCsv from "../ticks.csv?raw";
-import { parseTicks } from "./parseCsv.js";
 import TickFilters from "./components/TickFilters.jsx";
 import TickTable from "./components/TickTable.jsx";
 
 const DEFAULT_FILTERS = { style: "", leadStyle: "", routeType: "", year: "" };
 
 export default function App() {
-  const [ticks] = useState(() => parseTicks(ticksCsv));
+  const [ticks, setTicks] = useState([]);
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sort, setSort] = useState({ key: "date", dir: "desc" });
