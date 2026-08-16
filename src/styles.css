@@ -156,15 +156,15 @@ td.notes { max-width: 22rem; white-space: normal; word-break: break-word; }
 tbody tr:hover { background: #f4f8ff; }
 
 .row-delete {
-  font: inherit;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.6rem;
-  border: 1px solid #bbb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  border: 1px solid transparent;
   border-radius: 6px;
   background: transparent;
   color: #888;
   cursor: pointer;
-  white-space: nowrap;
 }
 
 .row-delete:hover { color: #b3261e; border-color: #b3261e; background: rgba(179, 38, 30, 0.08); }

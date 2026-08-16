@@ -56,8 +56,18 @@ export default function TickTable({ ticks, sort, onSort, onDelete, emptyMessage 
                   className="row-delete"
                   onClick={() => onDelete(t)}
                   aria-label={`Delete tick: ${t.route || "unnamed route"}`}
+                  title="Delete"
                 >
-                  Delete
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                    <path
+                      d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </button>
               </td>
             </tr>
