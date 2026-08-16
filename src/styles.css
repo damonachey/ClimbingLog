@@ -159,6 +159,9 @@ td.notes { max-width: 22rem; white-space: normal; word-break: break-word; }
 
 tbody tr:hover { background: #f4f8ff; }
 
+.row-actions { white-space: nowrap; display: flex; gap: 0.25rem; }
+
+.row-edit,
 .row-delete {
   display: flex;
   align-items: center;
@@ -171,6 +174,7 @@ tbody tr:hover { background: #f4f8ff; }
   cursor: pointer;
 }
 
+.row-edit:hover { color: #1a5fb4; border-color: #1a5fb4; background: rgba(26, 95, 180, 0.08); }
 .row-delete:hover { color: #b3261e; border-color: #b3261e; background: rgba(179, 38, 30, 0.08); }
 
 .empty { text-align: center; color: #888; padding: 2rem; }
@@ -466,7 +470,9 @@ a:hover { text-decoration: underline; }
   .toolbar button { background: #2c2e35; color: inherit; border-color: #3c3f47; }
   .toolbar button:hover:not(:disabled) { background: #33353d; }
   .table-wrap { border-color: #2c2e35; background: #1d1e24; }
+  .row-edit,
   .row-delete { border-color: #3c3f47; color: #9ca3af; }
+  .row-edit:hover { color: #6cb2ff; border-color: #6cb2ff; background: rgba(108, 178, 255, 0.1); }
   .row-delete:hover { color: #ff8a80; border-color: #ff8a80; background: rgba(255, 138, 128, 0.1); }
   th { background: #26272d; }
   th .sortable.active { color: #6cb2ff; }

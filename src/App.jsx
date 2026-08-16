@@ -3,7 +3,7 @@ import { parseTicks, serializeTicks } from "./parseCsv.js";
 import { loadTicks, saveTicks } from "./db.js";
 import { SEND_STATUS_BY_STYLE } from "./climbingOptions.js";
 import Toolbar from "./components/Toolbar.jsx";
-import AddRouteForm from "./components/AddRouteForm.jsx";
+import TickForm from "./components/TickForm.jsx";
 import ImportHelpModal from "./components/ImportHelpModal.jsx";
 import ConfirmModal from "./components/ConfirmModal.jsx";
 import StatisticsModal from "./components/StatisticsModal.jsx";
@@ -19,6 +19,7 @@ export default function App() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [showStatistics, setShowStatistics] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [editTarget, setEditTarget] = useState(null);
 
   useEffect(() => {
     loadTicks().then(setTicks);
@@ -46,6 +47,13 @@ export default function App() {
     await saveTicks(next);
     setTicks(next);
     setShowAddForm(false);
+  };
+
+  const handleEditRoute = async (updated) => {
+    const next = ticks.map((t) => (t === editTarget ? updated : t));
+    await saveTicks(next);
+    setTicks(next);
+    setEditTarget(null);
   };
 
   const confirmClear = async () => {
@@ -129,11 +137,20 @@ export default function App() {
         ticks={visibleTicks}
         sort={sort}
         onSort={toggleSort}
+        onEdit={setEditTarget}
         onDelete={setDeleteTarget}
         emptyMessage={ticks.length === 0 ? "No ticks yet. Import a CSV to get started." : "No ticks match the current filters."}
       />
       {showAddForm && (
-        <AddRouteForm options={options} onAdd={handleAddRoute} onClose={() => setShowAddForm(false)} />
+        <TickForm options={options} onSubmit={handleAddRoute} onClose={() => setShowAddForm(false)} />
+      )}
+      {editTarget && (
+        <TickForm
+          options={options}
+          initialTick={editTarget}
+          onSubmit={handleEditRoute}
+          onClose={() => setEditTarget(null)}
+        />
       )}
       {showHelp && <ImportHelpModal onClose={() => setShowHelp(false)} />}
       {showStatistics && <StatisticsModal ticks={ticks} onClose={() => setShowStatistics(false)} />}

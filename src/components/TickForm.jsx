@@ -25,8 +25,26 @@ const emptyForm = {
   url: "",
 };
 
-export default function AddRouteForm({ options, onAdd, onClose }) {
-  const [form, setForm] = useState(emptyForm);
+function formFromTick(tick) {
+  return {
+    date: tick.date ?? localDateString(),
+    route: tick.route ?? "",
+    rating: tick.rating ?? "",
+    routeType: tick.routeType ?? "",
+    style: tick.style ?? "",
+    sendStatus: tick.sendStatus ?? "",
+    location: tick.location ?? "",
+    pitches: tick.pitches ?? 1,
+    length: tick.length ?? "",
+    yourStars: tick.yourStars == null || tick.yourStars === -1 ? "" : tick.yourStars,
+    notes: tick.notes ?? "",
+    url: tick.url ?? "",
+  };
+}
+
+export default function TickForm({ options, initialTick, onSubmit, onClose }) {
+  const [form, setForm] = useState(() => (initialTick ? formFromTick(initialTick) : emptyForm));
+  const isEditing = Boolean(initialTick);
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -43,7 +61,8 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.route.trim()) return;
-    onAdd({
+    onSubmit({
+      ...(initialTick ?? {}),
       ...form,
       route: form.route.trim(),
       pitches: form.pitches === "" ? "" : Number(form.pitches),
@@ -58,11 +77,11 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
         className="modal"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="add-route-title"
+        aria-labelledby="tick-form-title"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-header">
-          <h2 id="add-route-title">Add Tick</h2>
+          <h2 id="tick-form-title">{isEditing ? "Edit Tick" : "Add Tick"}</h2>
           <button type="button" className="modal-close" onClick={onClose} aria-label="Close">
             ×
           </button>
@@ -149,7 +168,7 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
             <button type="button" className="secondary" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit">Add Tick</button>
+            <button type="submit">{isEditing ? "Save Changes" : "Add Tick"}</button>
           </div>
         </form>
       </div>

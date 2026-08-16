@@ -13,7 +13,7 @@ const COLUMNS = [
   { key: "notes", label: "Notes" },
 ];
 
-export default function TickTable({ ticks, sort, onSort, onDelete, emptyMessage = "No ticks match the current filters." }) {
+export default function TickTable({ ticks, sort, onSort, onEdit, onDelete, emptyMessage = "No ticks match the current filters." }) {
   return (
     <div className="table-wrap">
       <table>
@@ -50,7 +50,25 @@ export default function TickTable({ ticks, sort, onSort, onDelete, emptyMessage 
               <td>{t.yourStars === -1 ? "" : t.yourStars}</td>
               <td>{t.avgStars ?? ""}</td>
               <td className="notes">{t.notes}</td>
-              <td>
+              <td className="row-actions">
+                <button
+                  type="button"
+                  className="row-edit"
+                  onClick={() => onEdit(t)}
+                  aria-label={`Edit tick: ${t.route || "unnamed route"}`}
+                  title="Edit"
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                    <path
+                      d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
                 <button
                   type="button"
                   className="row-delete"
