@@ -33,8 +33,15 @@ h1 { margin: 0.25rem 0; font-size: 1.5rem; }
 .toolbar {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 0.5rem;
   margin: 1rem 0 0;
+}
+
+.toolbar-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .toolbar button {
@@ -51,6 +58,13 @@ h1 { margin: 0.25rem 0; font-size: 1.5rem; }
 .toolbar button:disabled {
   cursor: not-allowed;
   opacity: 0.55;
+}
+
+.toolbar button.help {
+  width: 2rem;
+  padding: 0.4rem 0;
+  border-radius: 50%;
+  font-weight: 600;
 }
 
 .filters {
@@ -188,7 +202,12 @@ a:hover { text-decoration: underline; }
   padding: 0.25rem;
 }
 
-.modal form { padding: 1.25rem; }
+.modal form,
+.modal-content { padding: 1.25rem; }
+
+.modal-body { line-height: 1.5; }
+.modal-body ol { margin: 0; padding-left: 1.25rem; }
+.modal-body li + li { margin-top: 0.5rem; }
 
 .modal-grid {
   display: grid;
