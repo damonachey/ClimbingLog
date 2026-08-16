@@ -6,6 +6,7 @@ import Toolbar from "./components/Toolbar.jsx";
 import AddRouteForm from "./components/AddRouteForm.jsx";
 import ImportHelpModal from "./components/ImportHelpModal.jsx";
 import ConfirmModal from "./components/ConfirmModal.jsx";
+import StatisticsModal from "./components/StatisticsModal.jsx";
 import TickFilters from "./components/TickFilters.jsx";
 import TickTable from "./components/TickTable.jsx";
 
@@ -16,6 +17,7 @@ export default function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
 
   useEffect(() => {
     loadTicks().then(setTicks);
@@ -109,6 +111,7 @@ export default function App() {
         onAdd={() => setShowAddForm(true)}
         onImport={handleImport}
         onExport={handleExport}
+        onStatistics={() => setShowStatistics(true)}
         onClear={() => setShowClearConfirm(true)}
         onHelp={() => setShowHelp(true)}
         noTicks={ticks.length === 0}
@@ -119,6 +122,7 @@ export default function App() {
         <AddRouteForm options={options} onAdd={handleAddRoute} onClose={() => setShowAddForm(false)} />
       )}
       {showHelp && <ImportHelpModal onClose={() => setShowHelp(false)} />}
+      {showStatistics && <StatisticsModal ticks={ticks} onClose={() => setShowStatistics(false)} />}
       {showClearConfirm && (
         <ConfirmModal
           title="Delete all ticks?"

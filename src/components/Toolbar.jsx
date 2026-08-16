@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-export default function Toolbar({ onAdd, onImport, onExport, onClear, onHelp, noTicks }) {
+export default function Toolbar({ onAdd, onImport, onExport, onStatistics, onClear, onHelp, noTicks }) {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
@@ -20,6 +20,9 @@ export default function Toolbar({ onAdd, onImport, onExport, onClear, onHelp, no
         </button>
         <button type="button" onClick={onExport} disabled={noTicks}>
           Export CSV
+        </button>
+        <button type="button" onClick={onStatistics} disabled={noTicks}>
+          Statistics
         </button>
         <input
           ref={fileInputRef}
