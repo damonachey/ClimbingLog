@@ -1,6 +1,6 @@
 const SELECTS = [
   { key: "style", label: "Style", valuesKey: "style" },
-  { key: "leadStyle", label: "Send Status", valuesKey: "leadStyle" },
+  { key: "send", label: "Send Status", valuesKey: "send" },
   { key: "routeType", label: "Route Type", valuesKey: "routeType" },
 ];
 
@@ -39,7 +39,7 @@ export default function TickFilters({ query, onQuery, filters, onFilters, option
           className="reset"
           onClick={() => {
             onQuery("");
-            onFilters({ style: "", leadStyle: "", routeType: "", year: "" });
+            onFilters({ style: "", send: "", routeType: "", year: "" });
           }}
         >
           Reset

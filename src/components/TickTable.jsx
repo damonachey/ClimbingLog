@@ -4,7 +4,7 @@ const COLUMNS = [
   { key: "rating", label: "Rating" },
   { key: "routeType", label: "Type" },
   { key: "style", label: "Style" },
-  { key: "leadStyle", label: "Send" },
+  { key: "send", label: "Send" },
   { key: "location", label: "Location" },
   { key: "pitches", label: "Pitches" },
   { key: "length", label: "Length (m)" },
@@ -42,7 +42,7 @@ export default function TickTable({ ticks, sort, onSort, emptyMessage = "No tick
               <td>{t.rating}</td>
               <td>{t.routeType}</td>
               <td>{t.style}</td>
-              <td>{t.leadStyle}</td>
+              <td>{t.send}</td>
               <td className="loc">{t.location}</td>
               <td>{t.pitches ?? ""}</td>
               <td>{t.length ?? ""}</td>

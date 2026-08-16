@@ -6,7 +6,7 @@ import AddRouteForm from "./components/AddRouteForm.jsx";
 import TickFilters from "./components/TickFilters.jsx";
 import TickTable from "./components/TickTable.jsx";
 
-const DEFAULT_FILTERS = { style: "", leadStyle: "", routeType: "", year: "" };
+const DEFAULT_FILTERS = { style: "", send: "", routeType: "", year: "" };
 
 export default function App() {
   const [ticks, setTicks] = useState([]);
@@ -47,7 +47,7 @@ export default function App() {
   const options = useMemo(() => {
     const uniq = (key) =>
       [...new Set(ticks.map((t) => t[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-    return { style: uniq("style"), leadStyle: uniq("leadStyle"), routeType: uniq("routeType") };
+    return { style: uniq("style"), send: uniq("send"), routeType: uniq("routeType") };
   }, [ticks]);
 
   const years = useMemo(
@@ -59,7 +59,7 @@ export default function App() {
     const q = query.trim().toLowerCase();
     const matches = ticks.filter((t) => {
       if (filters.style && t.style !== filters.style) return false;
-      if (filters.leadStyle && t.leadStyle !== filters.leadStyle) return false;
+      if (filters.send && t.send !== filters.send) return false;
       if (filters.routeType && t.routeType !== filters.routeType) return false;
       if (filters.year && t.date?.slice(0, 4) !== filters.year) return false;
       if (q && ![t.route, t.location, t.notes, t.rating].some((v) => v?.toLowerCase().includes(q))) return false;

@@ -11,12 +11,14 @@ const HEADER_LABELS = {
   avgStars: "Avg Stars",
   yourStars: "Your Stars",
   style: "Style",
-  leadStyle: "Lead Style",
+  send: "Lead Style",
   routeType: "Route Type",
   yourRating: "Your Rating",
   length: "Length",
   ratingCode: "Rating Code",
 };
+
+const HEADER_KEY_ALIASES = { "Lead Style": "send" };
 
 function camelCase(header) {
   const parts = header.trim().split(/[^a-zA-Z0-9]+/).filter(Boolean);
@@ -69,7 +71,7 @@ function parseCsv(text) {
 export function parseTicks(text) {
   const rows = parseCsv(text);
   if (rows.length === 0) return [];
-  const headers = rows[0].map(camelCase);
+  const headers = rows[0].map((h) => HEADER_KEY_ALIASES[h.trim()] ?? camelCase(h));
   return rows
     .slice(1)
     .map((values) =>

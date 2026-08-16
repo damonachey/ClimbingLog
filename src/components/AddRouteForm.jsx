@@ -30,7 +30,7 @@ const emptyForm = {
   rating: "",
   routeType: "",
   style: "",
-  leadStyle: "",
+  send: "",
   location: "",
   pitches: 1,
   length: "",
@@ -52,7 +52,7 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
 
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleStyleChange = (e) => setForm((f) => ({ ...f, style: e.target.value, leadStyle: "" }));
+  const handleStyleChange = (e) => setForm((f) => ({ ...f, style: e.target.value, send: "" }));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -120,7 +120,7 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
             </label>
             <label>
               Send Status
-              <select value={form.leadStyle} onChange={update("leadStyle")} disabled={!form.style}>
+              <select value={form.send} onChange={update("send")} disabled={!form.style}>
                 <option value="">{form.style ? "Select…" : "Select a style first"}</option>
                 {(SEND_STATUS_BY_STYLE[form.style] ?? []).map((s) => (
                   <option key={s} value={s}>{s}</option>
