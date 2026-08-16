@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 
-const YDS_RATINGS = [
-  ...Array.from({ length: 10 }, (_, i) => `5.${i}`),
-  ...Array.from({ length: 6 }, (_, i) => 10 + i).flatMap((grade) =>
-    ["a", "b", "c", "d"].map((letter) => `5.${grade}${letter}`)
-  ),
-];
+const PLAIN_GRADES = Array.from({ length: 7 }, (_, i) => `5.${i}`); // 5.0 - 5.6
+const MODIFIED_GRADES = [7, 8, 9].flatMap((n) => [`5.${n}-`, `5.${n}`, `5.${n}+`]);
+const LETTERED_GRADES = Array.from({ length: 6 }, (_, i) => 10 + i).flatMap((n) => [
+  `5.${n}a`, `5.${n}-`, `5.${n}a/b`, `5.${n}b`, `5.${n}`,
+  `5.${n}b/c`, `5.${n}c`, `5.${n}+`, `5.${n}c/d`, `5.${n}d`,
+]);
+const YDS_RATINGS = [...PLAIN_GRADES, ...MODIFIED_GRADES, ...LETTERED_GRADES];
 
 const emptyForm = {
   date: new Date().toISOString().slice(0, 10),
