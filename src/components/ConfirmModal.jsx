@@ -29,11 +29,11 @@ export default function ConfirmModal({ title, message, confirmLabel = "Confirm",
             <p>{message}</p>
           </div>
           <div className="modal-actions">
-            <button type="button" className="secondary" autoFocus onClick={onCancel}>
-              Cancel
-            </button>
             <button type="button" className="danger" onClick={onConfirm}>
               {confirmLabel}
+            </button>
+            <button type="button" className="secondary" autoFocus onClick={onCancel}>
+              Cancel
             </button>
           </div>
         </div>
