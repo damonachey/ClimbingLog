@@ -281,15 +281,22 @@ a:hover { text-decoration: underline; }
 
 .modal-actions button:hover { background: #164e94; }
 
-.modal-actions button.secondary {
+.modal-actions button.danger {
   background: #eee;
   color: inherit;
 }
 
-.modal-actions button.secondary:hover { background: #e2e2e2; }
+.modal-actions button.danger:hover,
+.modal-actions button.danger:focus {
+  background: #b3261e;
+  color: #fff;
+}
 
-.modal-actions button.danger { background: #b3261e; }
-.modal-actions button.danger:hover { background: #8f1e18; }
+.modal-actions:has(button.danger:hover) button.secondary,
+.modal-actions:has(button.danger:focus) button.secondary {
+  background: #eee;
+  color: inherit;
+}
 
 .stats-toggles {
   display: flex;
@@ -467,8 +474,11 @@ a:hover { text-decoration: underline; }
   .modal-grid input,
   .modal-grid select,
   .modal-grid textarea { background: #26272d; border-color: #3c3f47; }
-  .modal-actions button.secondary { background: #2c2e35; }
-  .modal-actions button.secondary:hover { background: #33353d; }
+  .modal-actions button.danger { background: #2c2e35; color: inherit; }
+  .modal-actions button.danger:hover,
+  .modal-actions button.danger:focus { background: #b3261e; color: #fff; }
+  .modal-actions:has(button.danger:hover) button.secondary,
+  .modal-actions:has(button.danger:focus) button.secondary { background: #2c2e35; color: inherit; }
   .chart-panel { border-color: #2c2e35; }
   .chart-panel h3 { color: #c3c2b7; }
   .discipline-toggle { color: #9ca3af; border-color: #3c3f47; }
