@@ -27,9 +27,37 @@ export default function ImportHelpModal({ onClose }) {
         <div className="modal-content">
           <div className="modal-body">
             <ol>
-              <li>Go to mountainproject.com and open your profile.</li>
-              <li>Open your Tick List to view all your ticks.</li>
-              <li>Click "Export" to download a CSV of your ticks.</li>
+              <li>
+                Go to{" "}
+                <a
+                  href="https://www.mountainproject.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="mountainproject.com (opens in new tab)"
+                >
+                  mountainproject.com
+                  <svg
+                    className="external-icon"
+                    viewBox="0 0 24 24"
+                    width="12"
+                    height="12"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path
+                      d="M14 3h7v7M10 14 21 3M21 14v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </a>{" "}
+                and open "Your Profile".
+              </li>
+              <li>Click "View All Ticks".</li>
+              <li>Click "Export CSV" to download a CSV of your ticks.</li>
               <li>Come back here and click "Import CSV" to load that file in.</li>
             </ol>
           </div>

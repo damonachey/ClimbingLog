@@ -153,6 +153,12 @@ tbody tr:hover { background: #f4f8ff; }
 a { color: #1a5fb4; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+.external-icon {
+  display: inline-block;
+  margin-left: 0.2em;
+  vertical-align: -0.05em;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
