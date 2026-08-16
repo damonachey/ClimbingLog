@@ -21,9 +21,6 @@ export default function Toolbar({ onAdd, onImport, onExport, onStatistics, onCle
         <button type="button" onClick={onExport} disabled={noTicks}>
           Export CSV
         </button>
-        <button type="button" onClick={onStatistics} disabled={noTicks}>
-          Statistics
-        </button>
         <input
           ref={fileInputRef}
           type="file"
@@ -32,7 +29,12 @@ export default function Toolbar({ onAdd, onImport, onExport, onStatistics, onCle
           onChange={handleFileChange}
         />
       </div>
-      <div className="toolbar-group">
+      <div className="toolbar-group toolbar-group-center">
+        <button type="button" onClick={onStatistics} disabled={noTicks}>
+          Statistics
+        </button>
+      </div>
+      <div className="toolbar-group toolbar-group-right">
         <button type="button" onClick={onClear} disabled={noTicks}>
           Clear Data
         </button>

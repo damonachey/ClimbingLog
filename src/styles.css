@@ -38,9 +38,9 @@ h1 { margin: 0.25rem 0; font-size: 1.5rem; }
 .status.error { color: #b00020; }
 
 .toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   gap: 0.5rem;
   margin: 1rem 0 0;
 }
@@ -50,6 +50,9 @@ h1 { margin: 0.25rem 0; font-size: 1.5rem; }
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+.toolbar-group-center { justify-self: center; }
+.toolbar-group-right { justify-self: end; }
 
 .toolbar button {
   font: inherit;
@@ -437,6 +440,8 @@ a:hover { text-decoration: underline; }
 @media (max-width: 48rem) {
   .stats-grid { grid-template-columns: 1fr; }
   .stats-kpi, .stats-year, .stats-month, .stats-grade, .stats-boulder { grid-column: 1; }
+  .toolbar { display: flex; flex-wrap: wrap; justify-content: center; }
+  .toolbar-group-center, .toolbar-group-right { justify-self: auto; }
 }
 
 @media (max-width: 30rem) {
