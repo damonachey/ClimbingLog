@@ -11,7 +11,7 @@ const HEADER_LABELS = {
   avgStars: "Avg Stars",
   yourStars: "Your Stars",
   style: "Style",
-  sendStatus: "Lead Style",
+  sendStatus: "Send Status",
   routeType: "Route Type",
   yourRating: "Your Rating",
   length: "Length",
