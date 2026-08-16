@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { parseTicks, serializeTicks } from "./parseCsv.js";
 import { loadTicks, saveTicks } from "./db.js";
+import { SEND_STATUS_BY_STYLE } from "./climbingOptions.js";
 import Toolbar from "./components/Toolbar.jsx";
 import AddRouteForm from "./components/AddRouteForm.jsx";
 import ImportHelpModal from "./components/ImportHelpModal.jsx";
@@ -57,10 +58,12 @@ export default function App() {
   const options = useMemo(() => {
     const uniq = (list, key) =>
       [...new Set(list.map((t) => t[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-    const bySelectedStyle = filters.style ? ticks.filter((t) => t.style === filters.style) : ticks;
+    const sendStatus = filters.style
+      ? SEND_STATUS_BY_STYLE[filters.style] ?? []
+      : [...new Set(Object.values(SEND_STATUS_BY_STYLE).flat())].sort((a, b) => a.localeCompare(b));
     return {
       style: uniq(ticks, "style"),
-      sendStatus: uniq(bySelectedStyle, "sendStatus"),
+      sendStatus,
       routeType: uniq(ticks, "routeType"),
     };
   }, [ticks, filters.style]);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { STYLES, SEND_STATUS_BY_STYLE } from "../climbingOptions.js";
 
 const PLAIN_GRADES = Array.from({ length: 7 }, (_, i) => `5.${i}`); // 5.0 - 5.6
 const MODIFIED_GRADES = [7, 8, 9].flatMap((n) => [`5.${n}-`, `5.${n}`, `5.${n}+`]);
@@ -7,15 +8,6 @@ const LETTERED_GRADES = Array.from({ length: 6 }, (_, i) => 10 + i).flatMap((n) 
   `5.${n}b/c`, `5.${n}c`, `5.${n}+`, `5.${n}c/d`, `5.${n}d`,
 ]);
 const YDS_RATINGS = [...PLAIN_GRADES, ...MODIFIED_GRADES, ...LETTERED_GRADES];
-
-const STYLES = ["Solo", "TR", "Follow", "Lead"];
-
-const SEND_STATUS_BY_STYLE = {
-  Lead: ["Onsight", "Flash", "Redpoint", "Fell/Hung"],
-  TR: ["Clean", "Fell/Hung"],
-  Follow: ["Clean", "Fell/Hung"],
-  Solo: ["Clean", "Bailed"],
-};
 
 function todayLocal() {
   const d = new Date();
