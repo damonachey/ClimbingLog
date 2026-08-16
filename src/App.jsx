@@ -4,6 +4,7 @@ import { loadTicks, saveTicks } from "./db.js";
 import Toolbar from "./components/Toolbar.jsx";
 import AddRouteForm from "./components/AddRouteForm.jsx";
 import ImportHelpModal from "./components/ImportHelpModal.jsx";
+import ConfirmModal from "./components/ConfirmModal.jsx";
 import TickFilters from "./components/TickFilters.jsx";
 import TickTable from "./components/TickTable.jsx";
 
@@ -13,6 +14,7 @@ export default function App() {
   const [ticks, setTicks] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   useEffect(() => {
     loadTicks().then(setTicks);
@@ -42,10 +44,10 @@ export default function App() {
     setShowAddForm(false);
   };
 
-  const handleClear = async () => {
-    if (!window.confirm(`Delete all ${ticks.length} ticks? This cannot be undone.`)) return;
+  const confirmClear = async () => {
     await saveTicks([]);
     setTicks([]);
+    setShowClearConfirm(false);
   };
 
   const [query, setQuery] = useState("");
@@ -99,7 +101,7 @@ export default function App() {
         onAdd={() => setShowAddForm(true)}
         onImport={handleImport}
         onExport={handleExport}
-        onClear={handleClear}
+        onClear={() => setShowClearConfirm(true)}
         onHelp={() => setShowHelp(true)}
         noTicks={ticks.length === 0}
       />
@@ -109,6 +111,15 @@ export default function App() {
         <AddRouteForm options={options} onAdd={handleAddRoute} onClose={() => setShowAddForm(false)} />
       )}
       {showHelp && <ImportHelpModal onClose={() => setShowHelp(false)} />}
+      {showClearConfirm && (
+        <ConfirmModal
+          title="Delete all ticks?"
+          message={`This will permanently delete all ${ticks.length} ticks. This cannot be undone.`}
+          confirmLabel="Delete All"
+          onConfirm={confirmClear}
+          onCancel={() => setShowClearConfirm(false)}
+        />
+      )}
     </main>
   );
 }

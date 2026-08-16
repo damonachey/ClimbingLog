@@ -33,8 +33,8 @@ export default function Toolbar({ onAdd, onImport, onExport, onClear, onHelp, no
         <button type="button" onClick={onClear} disabled={noTicks}>
           Clear Data
         </button>
-        <button type="button" className="help" onClick={onHelp} aria-label="Where do I get a CSV to import?">
-          ?
+        <button type="button" onClick={onHelp}>
+          Help ?
         </button>
       </div>
     </div>

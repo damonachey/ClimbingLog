@@ -60,13 +60,6 @@ h1 { margin: 0.25rem 0; font-size: 1.5rem; }
   opacity: 0.55;
 }
 
-.toolbar button.help {
-  width: 2rem;
-  padding: 0.4rem 0;
-  border-radius: 50%;
-  font-weight: 600;
-}
-
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -206,6 +199,7 @@ a:hover { text-decoration: underline; }
 .modal-content { padding: 1.25rem; }
 
 .modal-body { line-height: 1.5; }
+.modal-body p { margin: 0; }
 .modal-body ol { margin: 0; padding-left: 1.25rem; }
 .modal-body li + li { margin-top: 0.5rem; }
 
@@ -263,6 +257,9 @@ a:hover { text-decoration: underline; }
 }
 
 .modal-actions button.secondary:hover { background: #e2e2e2; }
+
+.modal-actions button.danger { background: #b3261e; }
+.modal-actions button.danger:hover { background: #8f1e18; }
 
 @media (max-width: 30rem) {
   .modal-grid { grid-template-columns: 1fr; }
