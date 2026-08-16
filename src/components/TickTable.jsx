@@ -13,7 +13,7 @@ const COLUMNS = [
   { key: "notes", label: "Notes" },
 ];
 
-export default function TickTable({ ticks, sort, onSort }) {
+export default function TickTable({ ticks, sort, onSort, emptyMessage = "No ticks match the current filters." }) {
   return (
     <div className="table-wrap">
       <table>
@@ -53,7 +53,7 @@ export default function TickTable({ ticks, sort, onSort }) {
           ))}
           {ticks.length === 0 && (
             <tr>
-              <td colSpan={COLUMNS.length} className="empty">No ticks match the current filters.</td>
+              <td colSpan={COLUMNS.length} className="empty">{emptyMessage}</td>
             </tr>
           )}
         </tbody>

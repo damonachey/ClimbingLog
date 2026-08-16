@@ -1,4 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { parseTicks, serializeTicks } from "./parseCsv.js";
+import { loadTicks, saveTicks } from "./db.js";
+import Toolbar from "./components/Toolbar.jsx";
 import TickFilters from "./components/TickFilters.jsx";
 import TickTable from "./components/TickTable.jsx";
 
@@ -6,6 +9,27 @@ const DEFAULT_FILTERS = { style: "", leadStyle: "", routeType: "", year: "" };
 
 export default function App() {
   const [ticks, setTicks] = useState([]);
+
+  useEffect(() => {
+    loadTicks().then(setTicks);
+  }, []);
+
+  const handleImport = async (file) => {
+    const text = await file.text();
+    const imported = parseTicks(text);
+    await saveTicks(imported);
+    setTicks(imported);
+  };
+
+  const handleExport = () => {
+    const blob = new Blob([serializeTicks(ticks)], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ticks.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sort, setSort] = useState({ key: "date", dir: "desc" });
@@ -53,8 +77,9 @@ export default function App() {
         <h1>Climbing Ticks</h1>
         <p className="count">{visibleTicks.length} of {ticks.length} ticks</p>
       </header>
+      <Toolbar onImport={handleImport} onExport={handleExport} exportDisabled={ticks.length === 0} />
       <TickFilters query={query} onQuery={setQuery} filters={filters} onFilters={setFilters} options={options} years={years} />
-      <TickTable ticks={visibleTicks} sort={sort} onSort={toggleSort} />
+      <TickTable ticks={visibleTicks} sort={sort} onSort={toggleSort} emptyMessage={ticks.length === 0 ? "No ticks yet. Import a CSV to get started." : "No ticks match the current filters."} />
     </main>
   );
 }
