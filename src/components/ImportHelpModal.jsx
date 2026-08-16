@@ -33,9 +33,9 @@ export default function ImportHelpModal({ onClose }) {
                   href="https://www.mountainproject.com"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="mountainproject.com (opens in new tab)"
+                  aria-label="https://mountainproject.com (opens in new tab)"
                 >
-                  mountainproject.com
+                  https://mountainproject.com
                   <svg
                     className="external-icon"
                     viewBox="0 0 24 24"
