@@ -4,7 +4,7 @@ const COLUMNS = [
   { key: "rating", label: "Rating" },
   { key: "routeType", label: "Type" },
   { key: "style", label: "Style" },
-  { key: "leadStyle", label: "Lead" },
+  { key: "leadStyle", label: "Send" },
   { key: "location", label: "Location" },
   { key: "pitches", label: "Pitches" },
   { key: "length", label: "Length (m)" },

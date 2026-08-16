@@ -1,6 +1,6 @@
 const SELECTS = [
   { key: "style", label: "Style", valuesKey: "style" },
-  { key: "leadStyle", label: "Lead Style", valuesKey: "leadStyle" },
+  { key: "leadStyle", label: "Send Status", valuesKey: "leadStyle" },
   { key: "routeType", label: "Route Type", valuesKey: "routeType" },
 ];
 

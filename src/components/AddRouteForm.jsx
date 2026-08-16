@@ -8,15 +8,31 @@ const LETTERED_GRADES = Array.from({ length: 6 }, (_, i) => 10 + i).flatMap((n) 
 ]);
 const YDS_RATINGS = [...PLAIN_GRADES, ...MODIFIED_GRADES, ...LETTERED_GRADES];
 
+const STYLES = ["Solo", "TR", "Follow", "Lead"];
+
+const SEND_STATUS_BY_STYLE = {
+  Lead: ["Onsight", "Flash", "Redpoint", "Fell/Hung"],
+  TR: ["Clean", "Fell/Hung"],
+  Follow: ["Clean", "Fell/Hung"],
+  Solo: ["Clean", "Bailed"],
+};
+
+function todayLocal() {
+  const d = new Date();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${month}-${day}`;
+}
+
 const emptyForm = {
-  date: new Date().toISOString().slice(0, 10),
+  date: todayLocal(),
   route: "",
   rating: "",
   routeType: "",
   style: "",
   leadStyle: "",
   location: "",
-  pitches: "",
+  pitches: 1,
   length: "",
   yourStars: "",
   notes: "",
@@ -35,6 +51,8 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
   }, [onClose]);
 
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const handleStyleChange = (e) => setForm((f) => ({ ...f, style: e.target.value, leadStyle: "" }));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -93,21 +111,21 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
             </label>
             <label>
               Style
-              <input type="text" list="style-options" value={form.style} onChange={update("style")} />
-              <datalist id="style-options">
-                {options.style.map((v) => (
-                  <option key={v} value={v} />
+              <select value={form.style} onChange={handleStyleChange}>
+                <option value="">Select…</option>
+                {STYLES.map((s) => (
+                  <option key={s} value={s}>{s}</option>
                 ))}
-              </datalist>
+              </select>
             </label>
             <label>
-              Lead Style
-              <input type="text" list="leadStyle-options" value={form.leadStyle} onChange={update("leadStyle")} />
-              <datalist id="leadStyle-options">
-                {options.leadStyle.map((v) => (
-                  <option key={v} value={v} />
+              Send Status
+              <select value={form.leadStyle} onChange={update("leadStyle")} disabled={!form.style}>
+                <option value="">{form.style ? "Select…" : "Select a style first"}</option>
+                {(SEND_STATUS_BY_STYLE[form.style] ?? []).map((s) => (
+                  <option key={s} value={s}>{s}</option>
                 ))}
-              </datalist>
+              </select>
             </label>
             <label className="span-2">
               Location
