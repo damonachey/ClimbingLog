@@ -12,7 +12,7 @@ export default function Toolbar({ onAdd, onImport, onExport, exportDisabled }) {
   return (
     <div className="toolbar">
       <button type="button" onClick={onAdd}>
-        Add route
+        Add Tick
       </button>
       <button type="button" onClick={() => fileInputRef.current?.click()}>
         Import CSV

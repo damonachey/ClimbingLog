@@ -58,7 +58,7 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-header">
-          <h2 id="add-route-title">Add Route</h2>
+          <h2 id="add-route-title">Add Tick</h2>
           <button type="button" className="modal-close" onClick={onClose} aria-label="Close">
             ×
           </button>
@@ -145,7 +145,7 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
             <button type="button" className="secondary" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit">Add Route</button>
+            <button type="submit">Add Tick</button>
           </div>
         </form>
       </div>
