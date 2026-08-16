@@ -146,6 +146,110 @@ tbody tr:hover { background: #f4f8ff; }
 a { color: #1a5fb4; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 10;
+}
+
+.modal {
+  width: 100%;
+  max-width: 34rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.modal-header h2 { margin: 0; font-size: 1.15rem; }
+
+.modal-close {
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0.25rem;
+}
+
+.modal form { padding: 1.25rem; }
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1rem;
+}
+
+.modal-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.modal-grid label.span-2 { grid-column: span 2; }
+
+.modal-grid input,
+.modal-grid select,
+.modal-grid textarea {
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+}
+
+.modal-grid textarea { resize: vertical; }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.modal-actions button {
+  font: inherit;
+  padding: 0.45rem 1rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: #1a5fb4;
+  color: #fff;
+  cursor: pointer;
+}
+
+.modal-actions button:hover { background: #164e94; }
+
+.modal-actions button.secondary {
+  background: #eee;
+  color: inherit;
+}
+
+.modal-actions button.secondary:hover { background: #e2e2e2; }
+
+@media (max-width: 30rem) {
+  .modal-grid { grid-template-columns: 1fr; }
+  .modal-grid label.span-2 { grid-column: span 1; }
+}
+
 @media (prefers-color-scheme: dark) {
   :root { --bg: #17181c; }
   body { color: #e5e7eb; }
@@ -160,4 +264,12 @@ a:hover { text-decoration: underline; }
   td { border-top-color: #2c2e35; }
   tbody tr:hover { background: #242a36; }
   a { color: #6cb2ff; }
+  .modal { background: #1d1e24; }
+  .modal-header { border-bottom-color: #2c2e35; }
+  .modal-grid label { color: #9ca3af; }
+  .modal-grid input,
+  .modal-grid select,
+  .modal-grid textarea { background: #26272d; border-color: #3c3f47; }
+  .modal-actions button.secondary { background: #2c2e35; }
+  .modal-actions button.secondary:hover { background: #33353d; }
 }
