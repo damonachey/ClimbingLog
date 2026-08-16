@@ -1,5 +1,23 @@
 const NUMERIC = new Set(["pitches", "avgStars", "yourStars", "length", "ratingCode"]);
 
+const HEADER_LABELS = {
+  date: "Date",
+  route: "Route",
+  rating: "Rating",
+  notes: "Notes",
+  url: "URL",
+  pitches: "Pitches",
+  location: "Location",
+  avgStars: "Avg Stars",
+  yourStars: "Your Stars",
+  style: "Style",
+  leadStyle: "Lead Style",
+  routeType: "Route Type",
+  yourRating: "Your Rating",
+  length: "Length",
+  ratingCode: "Rating Code",
+};
+
 function camelCase(header) {
   const parts = header.trim().split(/[^a-zA-Z0-9]+/).filter(Boolean);
   return parts
@@ -62,4 +80,17 @@ export function parseTicks(text) {
         })
       )
     );
+}
+
+function escapeCsvField(value) {
+  const str = value == null ? "" : String(value);
+  return /[",\r\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+}
+
+export function serializeTicks(ticks) {
+  const keys = Object.keys(HEADER_LABELS);
+  const lines = [keys.map((key) => escapeCsvField(HEADER_LABELS[key]))]
+    .concat(ticks.map((tick) => keys.map((key) => escapeCsvField(tick[key]))))
+    .map((fields) => fields.join(","));
+  return lines.join("\r\n") + "\r\n";
 }
