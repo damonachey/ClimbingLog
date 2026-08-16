@@ -290,13 +290,14 @@ a:hover { text-decoration: underline; }
   border-radius: 999px;
   cursor: pointer;
   background: transparent;
-  color: var(--discipline-color);
-  border: 1.5px solid var(--discipline-color);
+  color: #999;
+  border: 1.5px solid #ccc;
 }
 
 .discipline-toggle.active {
   background: var(--discipline-color);
   color: #fff;
+  border-color: var(--discipline-color);
 }
 
 .discipline-toggle.bar-trad { --discipline-color: var(--chart-trad); }
@@ -453,6 +454,7 @@ a:hover { text-decoration: underline; }
   .modal-actions button.secondary:hover { background: #33353d; }
   .chart-panel { border-color: #2c2e35; }
   .chart-panel h3 { color: #c3c2b7; }
+  .discipline-toggle { color: #9ca3af; border-color: #3c3f47; }
   .chart-empty, .bar-total, .bar-label, .chart-legend { color: #9ca3af; }
   .stats-table thead th { border-bottom-color: #2c2e35; }
 }
