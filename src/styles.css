@@ -179,6 +179,17 @@ tbody tr:hover { background: #f4f8ff; }
 
 .empty { text-align: center; color: #888; padding: 2rem; }
 
+.load-sample {
+  font: inherit;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: #eee;
+  cursor: pointer;
+}
+
+.load-sample:hover { background: #e2e2e2; }
+
 a { color: #1a5fb4; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -469,6 +480,8 @@ a:hover { text-decoration: underline; }
   .filters .reset { background: #2c2e35; color: inherit; border-color: #3c3f47; }
   .toolbar button { background: #2c2e35; color: inherit; border-color: #3c3f47; }
   .toolbar button:hover:not(:disabled) { background: #33353d; }
+  .load-sample { background: #2c2e35; color: inherit; border-color: #3c3f47; }
+  .load-sample:hover { background: #33353d; }
   .table-wrap { border-color: #2c2e35; background: #1d1e24; }
   .row-edit,
   .row-delete { border-color: #3c3f47; color: #9ca3af; }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { parseTicks, serializeTicks } from "./parseCsv.js";
 import { loadTicks, saveTicks } from "./db.js";
+import { generateSampleTicks } from "./sampleTicks.js";
 import { SEND_STATUS_BY_STYLE } from "./climbingOptions.js";
 import Toolbar from "./components/Toolbar.jsx";
 import TickForm from "./components/TickForm.jsx";
@@ -40,6 +41,12 @@ export default function App() {
     a.download = "ticks.csv";
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleLoadSample = async () => {
+    const sample = generateSampleTicks();
+    await saveTicks(sample);
+    setTicks(sample);
   };
 
   const handleAddRoute = async (tick) => {
@@ -139,7 +146,18 @@ export default function App() {
         onSort={toggleSort}
         onEdit={setEditTarget}
         onDelete={setDeleteTarget}
-        emptyMessage={ticks.length === 0 ? "No ticks yet. Import a CSV to get started." : "No ticks match the current filters."}
+        emptyMessage={
+          ticks.length === 0 ? (
+            <>
+              No ticks yet. Import a CSV to get started.{" "}
+              <button type="button" className="load-sample" onClick={handleLoadSample}>
+                Load Sample Ticks
+              </button>
+            </>
+          ) : (
+            "No ticks match the current filters."
+          )
+        }
       />
       {showAddForm && (
         <TickForm options={options} onSubmit={handleAddRoute} onClose={() => setShowAddForm(false)} />
