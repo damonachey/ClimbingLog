@@ -13,7 +13,7 @@ const COLUMNS = [
   { key: "notes", label: "Notes" },
 ];
 
-export default function TickTable({ ticks, sort, onSort, emptyMessage = "No ticks match the current filters." }) {
+export default function TickTable({ ticks, sort, onSort, onDelete, emptyMessage = "No ticks match the current filters." }) {
   return (
     <div className="table-wrap">
       <table>
@@ -30,6 +30,7 @@ export default function TickTable({ ticks, sort, onSort, emptyMessage = "No tick
                 </th>
               );
             })}
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -49,11 +50,21 @@ export default function TickTable({ ticks, sort, onSort, emptyMessage = "No tick
               <td>{t.yourStars === -1 ? "" : t.yourStars}</td>
               <td>{t.avgStars ?? ""}</td>
               <td className="notes">{t.notes}</td>
+              <td>
+                <button
+                  type="button"
+                  className="row-delete"
+                  onClick={() => onDelete(t)}
+                  aria-label={`Delete tick: ${t.route || "unnamed route"}`}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
           {ticks.length === 0 && (
             <tr>
-              <td colSpan={COLUMNS.length} className="empty">{emptyMessage}</td>
+              <td colSpan={COLUMNS.length + 1} className="empty">{emptyMessage}</td>
             </tr>
           )}
         </tbody>

@@ -155,6 +155,20 @@ td.notes { max-width: 22rem; white-space: normal; word-break: break-word; }
 
 tbody tr:hover { background: #f4f8ff; }
 
+.row-delete {
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.row-delete:hover { color: #b3261e; border-color: #b3261e; background: rgba(179, 38, 30, 0.08); }
+
 .empty { text-align: center; color: #888; padding: 2rem; }
 
 a { color: #1a5fb4; text-decoration: none; }
@@ -439,6 +453,8 @@ a:hover { text-decoration: underline; }
   .toolbar button { background: #2c2e35; color: inherit; border-color: #3c3f47; }
   .toolbar button:hover:not(:disabled) { background: #33353d; }
   .table-wrap { border-color: #2c2e35; background: #1d1e24; }
+  .row-delete { border-color: #3c3f47; color: #9ca3af; }
+  .row-delete:hover { color: #ff8a80; border-color: #ff8a80; background: rgba(255, 138, 128, 0.1); }
   th { background: #26272d; }
   th .sortable.active { color: #6cb2ff; }
   td { border-top-color: #2c2e35; }

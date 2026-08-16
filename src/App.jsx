@@ -18,6 +18,7 @@ export default function App() {
   const [showHelp, setShowHelp] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [showStatistics, setShowStatistics] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
     loadTicks().then(setTicks);
@@ -51,6 +52,13 @@ export default function App() {
     await saveTicks([]);
     setTicks([]);
     setShowClearConfirm(false);
+  };
+
+  const confirmDelete = async () => {
+    const next = ticks.filter((t) => t !== deleteTarget);
+    await saveTicks(next);
+    setTicks(next);
+    setDeleteTarget(null);
   };
 
   const [query, setQuery] = useState("");
@@ -117,7 +125,13 @@ export default function App() {
         noTicks={ticks.length === 0}
       />
       <TickFilters query={query} onQuery={setQuery} filters={filters} onFilters={setFilters} options={options} years={years} />
-      <TickTable ticks={visibleTicks} sort={sort} onSort={toggleSort} emptyMessage={ticks.length === 0 ? "No ticks yet. Import a CSV to get started." : "No ticks match the current filters."} />
+      <TickTable
+        ticks={visibleTicks}
+        sort={sort}
+        onSort={toggleSort}
+        onDelete={setDeleteTarget}
+        emptyMessage={ticks.length === 0 ? "No ticks yet. Import a CSV to get started." : "No ticks match the current filters."}
+      />
       {showAddForm && (
         <AddRouteForm options={options} onAdd={handleAddRoute} onClose={() => setShowAddForm(false)} />
       )}
@@ -130,6 +144,15 @@ export default function App() {
           confirmLabel="Delete All"
           onConfirm={confirmClear}
           onCancel={() => setShowClearConfirm(false)}
+        />
+      )}
+      {deleteTarget && (
+        <ConfirmModal
+          title="Delete this tick?"
+          message={`This will permanently delete "${deleteTarget.route || "this route"}" (${deleteTarget.date}). This cannot be undone.`}
+          confirmLabel="Delete"
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTarget(null)}
         />
       )}
     </main>
