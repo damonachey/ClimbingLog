@@ -1,10 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export default function ConfirmModal({ title, message, confirmLabel = "Confirm", onConfirm, onCancel }) {
-  const cancelRef = useRef(null);
-
   useEffect(() => {
-    cancelRef.current?.focus();
     const onKeyDown = (e) => {
       if (e.key === "Escape") onCancel();
     };
@@ -32,7 +29,7 @@ export default function ConfirmModal({ title, message, confirmLabel = "Confirm",
             <p>{message}</p>
           </div>
           <div className="modal-actions">
-            <button type="button" className="secondary" ref={cancelRef} onClick={onCancel}>
+            <button type="button" className="secondary" autoFocus onClick={onCancel}>
               Cancel
             </button>
             <button type="button" className="danger" onClick={onConfirm}>
