@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 
+const YDS_RATINGS = [
+  ...Array.from({ length: 10 }, (_, i) => `5.${i}`),
+  ...Array.from({ length: 6 }, (_, i) => 10 + i).flatMap((grade) =>
+    ["a", "b", "c", "d"].map((letter) => `5.${grade}${letter}`)
+  ),
+];
+
 const emptyForm = {
   date: new Date().toISOString().slice(0, 10),
   route: "",
@@ -67,7 +74,12 @@ export default function AddRouteForm({ options, onAdd, onClose }) {
             </label>
             <label>
               Rating
-              <input type="text" value={form.rating} onChange={update("rating")} placeholder="5.10d" />
+              <select value={form.rating} onChange={update("rating")}>
+                <option value="">Select…</option>
+                {YDS_RATINGS.map((grade) => (
+                  <option key={grade} value={grade}>{grade}</option>
+                ))}
+              </select>
             </label>
             <label>
               Route Type
