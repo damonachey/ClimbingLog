@@ -11,14 +11,14 @@ const HEADER_LABELS = {
   avgStars: "Avg Stars",
   yourStars: "Your Stars",
   style: "Style",
-  send: "Lead Style",
+  sendStatus: "Lead Style",
   routeType: "Route Type",
   yourRating: "Your Rating",
   length: "Length",
   ratingCode: "Rating Code",
 };
 
-const HEADER_KEY_ALIASES = { "Lead Style": "send" };
+const HEADER_KEY_ALIASES = { "Lead Style": "sendStatus" };
 
 function camelCase(header) {
   const parts = header.trim().split(/[^a-zA-Z0-9]+/).filter(Boolean);
