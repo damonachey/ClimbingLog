@@ -165,10 +165,10 @@ export default function TickForm({ options, initialTick, onSubmit, onClose }) {
             </label>
           </div>
           <div className="modal-actions">
+            <button type="submit">{isEditing ? "Save Changes" : "Add Tick"}</button>
             <button type="button" className="secondary" onClick={onClose}>
               Cancel
             </button>
-            <button type="submit">{isEditing ? "Save Changes" : "Add Tick"}</button>
           </div>
         </form>
       </div>
