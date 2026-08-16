@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { parseTicks, serializeTicks } from "./parseCsv.js";
 import { loadTicks, saveTicks } from "./db.js";
 import Toolbar from "./components/Toolbar.jsx";
+import AddRouteForm from "./components/AddRouteForm.jsx";
 import TickFilters from "./components/TickFilters.jsx";
 import TickTable from "./components/TickTable.jsx";
 
@@ -9,6 +10,7 @@ const DEFAULT_FILTERS = { style: "", leadStyle: "", routeType: "", year: "" };
 
 export default function App() {
   const [ticks, setTicks] = useState([]);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
     loadTicks().then(setTicks);
@@ -30,6 +32,14 @@ export default function App() {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  const handleAddRoute = async (tick) => {
+    const next = [tick, ...ticks];
+    await saveTicks(next);
+    setTicks(next);
+    setShowAddForm(false);
+  };
+
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sort, setSort] = useState({ key: "date", dir: "desc" });
@@ -77,9 +87,17 @@ export default function App() {
         <h1>Climbing Ticks</h1>
         <p className="count">{visibleTicks.length} of {ticks.length} ticks</p>
       </header>
-      <Toolbar onImport={handleImport} onExport={handleExport} exportDisabled={ticks.length === 0} />
+      <Toolbar
+        onAdd={() => setShowAddForm(true)}
+        onImport={handleImport}
+        onExport={handleExport}
+        exportDisabled={ticks.length === 0}
+      />
       <TickFilters query={query} onQuery={setQuery} filters={filters} onFilters={setFilters} options={options} years={years} />
       <TickTable ticks={visibleTicks} sort={sort} onSort={toggleSort} emptyMessage={ticks.length === 0 ? "No ticks yet. Import a CSV to get started." : "No ticks match the current filters."} />
+      {showAddForm && (
+        <AddRouteForm options={options} onAdd={handleAddRoute} onClose={() => setShowAddForm(false)} />
+      )}
     </main>
   );
 }

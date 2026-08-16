@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-export default function Toolbar({ onImport, onExport, exportDisabled }) {
+export default function Toolbar({ onAdd, onImport, onExport, exportDisabled }) {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
@@ -11,7 +11,7 @@ export default function Toolbar({ onImport, onExport, exportDisabled }) {
 
   return (
     <div className="toolbar">
-      <button type="button" disabled title="Coming soon">
+      <button type="button" onClick={onAdd}>
         Add route
       </button>
       <button type="button" onClick={() => fileInputRef.current?.click()}>
