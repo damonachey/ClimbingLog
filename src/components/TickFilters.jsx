@@ -5,6 +5,15 @@ const SELECTS = [
 ];
 
 export default function TickFilters({ query, onQuery, filters, onFilters, options, years }) {
+  const handleFilterChange = (key) => (e) => {
+    const value = e.target.value;
+    if (key === "style") {
+      onFilters({ ...filters, style: value, sendStatus: "" });
+    } else {
+      onFilters({ ...filters, [key]: value });
+    }
+  };
+
   return (
     <div className="filters">
       <input
@@ -26,7 +35,7 @@ export default function TickFilters({ query, onQuery, filters, onFilters, option
       {SELECTS.map(({ key, label, valuesKey }) => (
         <label key={key}>
           {label}
-          <select value={filters[key]} onChange={(e) => onFilters({ ...filters, [key]: e.target.value })}>
+          <select value={filters[key]} onChange={handleFilterChange(key)}>
             <option value="">All</option>
             {options[valuesKey].map((v) => (
               <option key={v} value={v}>{v}</option>

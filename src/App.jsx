@@ -55,10 +55,15 @@ export default function App() {
   const [sort, setSort] = useState({ key: "date", dir: "desc" });
 
   const options = useMemo(() => {
-    const uniq = (key) =>
-      [...new Set(ticks.map((t) => t[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-    return { style: uniq("style"), sendStatus: uniq("sendStatus"), routeType: uniq("routeType") };
-  }, [ticks]);
+    const uniq = (list, key) =>
+      [...new Set(list.map((t) => t[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+    const bySelectedStyle = filters.style ? ticks.filter((t) => t.style === filters.style) : ticks;
+    return {
+      style: uniq(ticks, "style"),
+      sendStatus: uniq(bySelectedStyle, "sendStatus"),
+      routeType: uniq(ticks, "routeType"),
+    };
+  }, [ticks, filters.style]);
 
   const years = useMemo(
     () => [...new Set(ticks.map((t) => t.date?.slice(0, 4))).values()].sort().reverse(),
