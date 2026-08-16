@@ -150,6 +150,7 @@ td {
   vertical-align: top;
 }
 
+td.date { white-space: nowrap; }
 td.loc { max-width: 22rem; }
 td.notes { max-width: 22rem; white-space: normal; word-break: break-word; }
 

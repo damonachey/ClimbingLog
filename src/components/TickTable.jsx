@@ -36,7 +36,7 @@ export default function TickTable({ ticks, sort, onSort, onDelete, emptyMessage 
         <tbody>
           {ticks.map((t, i) => (
             <tr key={i}>
-              <td>{t.date}</td>
+              <td className="date">{t.date}</td>
               <td>
                 {t.url ? <a href={t.url} target="_blank" rel="noreferrer">{t.route}</a> : t.route}
               </td>
