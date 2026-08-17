@@ -61,6 +61,7 @@ h1 { margin: 0.25rem 0; font-size: 1.5rem; }
   border-radius: 6px;
   background: #eee;
   cursor: pointer;
+  min-height: 2.25rem;
 }
 
 .toolbar button:hover:not(:disabled) { background: #e2e2e2; }
@@ -81,7 +82,7 @@ h1 { margin: 0.25rem 0; font-size: 1.5rem; }
 
 .toolbar-menu { position: relative; }
 
-.toolbar-gear {
+button.toolbar-gear {
   display: flex;
   align-items: center;
   justify-content: center;
