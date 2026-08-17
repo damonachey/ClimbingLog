@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { parseTicks, serializeTicks } from "./parseCsv.js";
 import { loadTicks, saveTicks } from "./db.js";
 import { generateSampleTicks } from "./sampleTicks.js";
 import { SEND_STATUS_BY_STYLE } from "./climbingOptions.js";
+import { signIn, signOut, trySilentSignIn, getValidToken } from "./googleAuth.js";
+import { pullFromDrive, pushToDrive, isPendingSync, markPendingSync, clearPendingSync } from "./driveSync.js";
 import Toolbar from "./components/Toolbar.jsx";
 import TickForm from "./components/TickForm.jsx";
 import ImportHelpModal from "./components/ImportHelpModal.jsx";
@@ -22,15 +24,117 @@ export default function App() {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [editTarget, setEditTarget] = useState(null);
 
+  const [signedIn, setSignedIn] = useState(false);
+  const [syncStatus, setSyncStatus] = useState("idle");
+  const [authError, setAuthError] = useState(null);
+  const [syncError, setSyncError] = useState(null);
+  const ticksRef = useRef(ticks);
   useEffect(() => {
-    loadTicks().then(setTicks);
+    ticksRef.current = ticks;
+  }, [ticks]);
+
+  const reconcile = async (token) => {
+    setSyncStatus("syncing");
+    try {
+      if (isPendingSync()) {
+        await pushToDrive(token, ticksRef.current);
+        clearPendingSync();
+      } else {
+        const remote = await pullFromDrive(token);
+        if (remote.length === 0 && ticksRef.current.length > 0) {
+          // Freshly-created empty Drive file: push existing local data up rather
+          // than wiping it with an empty pull.
+          await pushToDrive(token, ticksRef.current);
+        } else {
+          await saveTicks(remote);
+          ticksRef.current = remote;
+          setTicks(remote);
+        }
+      }
+      setSyncStatus("synced");
+      setSyncError(null);
+    } catch (err) {
+      console.error("Drive reconcile failed:", err);
+      markPendingSync();
+      setSyncStatus("offline");
+      setSyncError(err.message || "Sync failed");
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const cached = await loadTicks();
+      ticksRef.current = cached;
+      setTicks(cached);
+      const token = await trySilentSignIn();
+      if (!token) return;
+      setSignedIn(true);
+      await reconcile(token);
+    })();
   }, []);
+
+  useEffect(() => {
+    const handleOnline = async () => {
+      if (!signedIn || !isPendingSync()) return;
+      try {
+        const token = await getValidToken();
+        await pushToDrive(token, ticksRef.current);
+        clearPendingSync();
+        setSyncStatus("synced");
+        setSyncError(null);
+      } catch (err) {
+        console.error("Drive sync failed:", err);
+        markPendingSync();
+        setSyncStatus("offline");
+        setSyncError(err.message || "Sync failed");
+      }
+    };
+    window.addEventListener("online", handleOnline);
+    return () => window.removeEventListener("online", handleOnline);
+  }, [signedIn]);
+
+  const handleSignIn = async () => {
+    setAuthError(null);
+    try {
+      const token = await signIn();
+      setSignedIn(true);
+      await reconcile(token);
+    } catch (err) {
+      console.error("Google sign-in failed:", err);
+      setAuthError(err.message || "Sign-in failed");
+    }
+  };
+
+  const handleSignOut = () => {
+    signOut();
+    setSignedIn(false);
+    setSyncStatus("idle");
+    setAuthError(null);
+  };
+
+  const persist = async (next) => {
+    await saveTicks(next);
+    setTicks(next);
+    if (!signedIn) return;
+    setSyncStatus("syncing");
+    try {
+      const token = await getValidToken();
+      await pushToDrive(token, next);
+      clearPendingSync();
+      setSyncStatus("synced");
+      setSyncError(null);
+    } catch (err) {
+      console.error("Drive sync failed:", err);
+      markPendingSync();
+      setSyncStatus("offline");
+      setSyncError(err.message || "Sync failed");
+    }
+  };
 
   const handleImport = async (file) => {
     const text = await file.text();
     const imported = parseTicks(text);
-    await saveTicks(imported);
-    setTicks(imported);
+    await persist(imported);
   };
 
   const handleExport = () => {
@@ -45,34 +149,29 @@ export default function App() {
 
   const handleLoadSample = async () => {
     const sample = generateSampleTicks();
-    await saveTicks(sample);
-    setTicks(sample);
+    await persist(sample);
   };
 
   const handleAddRoute = async (tick) => {
     const next = [tick, ...ticks];
-    await saveTicks(next);
-    setTicks(next);
+    await persist(next);
     setShowAddForm(false);
   };
 
   const handleEditRoute = async (updated) => {
     const next = ticks.map((t) => (t === editTarget ? updated : t));
-    await saveTicks(next);
-    setTicks(next);
+    await persist(next);
     setEditTarget(null);
   };
 
   const confirmClear = async () => {
-    await saveTicks([]);
-    setTicks([]);
+    await persist([]);
     setShowClearConfirm(false);
   };
 
   const confirmDelete = async () => {
     const next = ticks.filter((t) => t !== deleteTarget);
-    await saveTicks(next);
-    setTicks(next);
+    await persist(next);
     setDeleteTarget(null);
   };
 
@@ -138,6 +237,12 @@ export default function App() {
         onClear={() => setShowClearConfirm(true)}
         onHelp={() => setShowHelp(true)}
         noTicks={ticks.length === 0}
+        signedIn={signedIn}
+        syncStatus={syncStatus}
+        syncError={syncError}
+        authError={authError}
+        onSignIn={handleSignIn}
+        onSignOut={handleSignOut}
       />
       <TickFilters query={query} onQuery={setQuery} filters={filters} onFilters={setFilters} options={options} years={years} />
       <TickTable

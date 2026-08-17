@@ -1,6 +1,26 @@
 import { useRef } from "react";
 
-export default function Toolbar({ onAdd, onImport, onExport, onStatistics, onClear, onHelp, noTicks }) {
+const SYNC_STATUS_LABEL = {
+  syncing: "Syncing…",
+  synced: "Synced",
+  offline: "Offline — will sync",
+};
+
+export default function Toolbar({
+  onAdd,
+  onImport,
+  onExport,
+  onStatistics,
+  onClear,
+  onHelp,
+  noTicks,
+  signedIn,
+  syncStatus,
+  syncError,
+  authError,
+  onSignIn,
+  onSignOut,
+}) {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
@@ -38,6 +58,25 @@ export default function Toolbar({ onAdd, onImport, onExport, onStatistics, onCle
         <button type="button" onClick={onClear} disabled={noTicks}>
           Clear Data
         </button>
+        {signedIn ? (
+          <>
+            {syncStatus && (
+              <span className={`sync-status${syncStatus === "offline" ? " sync-status-error" : ""}`}>
+                {syncStatus === "offline" && syncError ? syncError : SYNC_STATUS_LABEL[syncStatus]}
+              </span>
+            )}
+            <button type="button" onClick={onSignOut}>
+              Sign Out
+            </button>
+          </>
+        ) : (
+          <>
+            {authError && <span className="sync-status sync-status-error">{authError}</span>}
+            <button type="button" onClick={onSignIn}>
+              Sign in with Google
+            </button>
+          </>
+        )}
         <button type="button" onClick={onHelp}>
           Help ?
         </button>

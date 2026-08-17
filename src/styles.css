@@ -70,6 +70,15 @@ h1 { margin: 0.25rem 0; font-size: 1.5rem; }
   opacity: 0.55;
 }
 
+.sync-status {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.sync-status-error { color: #b3261e; }
+
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -475,7 +484,7 @@ a:hover { text-decoration: underline; }
     --chart-other: #898781;
   }
   body { color: #e5e7eb; }
-  .count, .status, .filters label { color: #9ca3af; }
+  .count, .status, .filters label, .sync-status { color: #9ca3af; }
   .filters select, .filters .search { background: #26272d; color: inherit; border-color: #3c3f47; }
   .filters .reset { background: #2c2e35; color: inherit; border-color: #3c3f47; }
   .toolbar button { background: #2c2e35; color: inherit; border-color: #3c3f47; }
